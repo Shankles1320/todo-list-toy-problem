@@ -1,19 +1,33 @@
-const todos = [{content: 'stuff', completed: true},{content: 'Help students', completed: false}];
+const todos = [
+	{ content: "stuff", completed: true },
+	{ content: "Help students", completed: false }
+];
 
 /*
     EDIT THESE FUNCTIONS TO ENABLE THE TODO APP TO WORK
 */
 module.exports = {
-    getTodo: (req, res) => {
+	getTodo: (req, res) => {
+		res.status(200).send(todos);
+	},
+	postTodo: (req, res) => {
+		const { content, completed } = req.body;
+		todos.push({
+			content: content || "No Content",
+			completed: completed || false
+		});
+		res.status(200).send(todos);
+	},
 
-    },
-    postTodo: (req, res) => {
-
-    },
-    updateTodo: (req, res) => {
-
-    },
-    deleteTodo: (req, res) => {
-
-    }
-}
+	updateTodo: (req, res) => {
+		const { completed } = req.body;
+		const index = req.params.index;
+		todos[index].completed = completed;
+		res.status(200).send(todos);
+	},
+	deleteTodo: (req, res) => {
+		const index = req.params.index;
+		todos.splice(index, 1);
+		res.status(200).send(todos);
+	}
+};
